@@ -12,5 +12,4 @@ ios)
 esac
 
 cd ..
-
-npx react-native "run-$1"
+npx react-native link && react-native "run-$1" 
