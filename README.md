@@ -13,13 +13,13 @@ Demonstration of common Native Mobile concepts and features in React Native
 # Features and Concepts
 
 ## Animations
-- [] Shared element transition
-- [] Navigation transition animation
-- [] Slides and Fades animation of elements
+- [ ] Shared element transition
+- [ ] Navigation transition animation
+- [ ] Slides and Fades animation of elements
 
 ## Networking
-- [] Sockets
-- [] HTTPS calls
+- [ ] Sockets
+- [ ] HTTPS calls
 
 ## Storage
 
