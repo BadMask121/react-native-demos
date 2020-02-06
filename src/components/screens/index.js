@@ -1,2 +1,3 @@
 import Home from './Home';
-export {Home};
+import * as Transition from './Transition';
+export {Home, Transition};

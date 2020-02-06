@@ -11,20 +11,9 @@ const AppContants = {
   findWashHeight: 150,
   passwordMinLength: 7,
   ROUTES: {
-    APP: 'App',
-    AUTH: 'Auth',
-    SPLASHSCREEEN: 'SplashScreen',
-    WELCOME: 'Welcome',
-    LOGIN: 'Login',
-    SIGNUP: 'Signup',
-    CONFIRM_SIGNUP: 'ConfirmSignup',
-    DASHBOARD: 'Dashboard',
-    BUSINESS_DASHBOARD: 'BusinessDashboard',
-    BUSINESS_ROUTE: 'BusinessRoute',
-    CREATE_BUSINESS: 'CreateBusiness',
-    CREATE_INVOICE: 'CreateInvoice',
-    VIEW_INVOICE: 'ViewInvoice',
-    INVOICES: 'Invoices',
+    TRANSITIONSCREEN: 'TransitionNavigator',
+    SHARED_ELEMENT_TRANSITION: 'SharedElementTransition',
+    HOME: 'Home',
   },
 };
 
