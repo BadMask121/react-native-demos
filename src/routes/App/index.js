@@ -41,10 +41,16 @@ export const GesturesNavigator = createAppContainer(
           title: 'Gestures',
         }),
       },
-      PanGesturesScreen: {
-        screen: props => <Gestures.PanGesturesScreen {...props} />,
+      DraggableScreen: {
+        screen: props => <Gestures.DraggableView {...props} />,
         navigationOptions: ({}) => ({
-          title: 'Pan Gestures',
+          title: 'Draggable Demo',
+        }),
+      },
+      TapAndHoldScreen: {
+        screen: props => <Gestures.TapAndHoldView {...props} />,
+        navigationOptions: ({}) => ({
+          title: 'Tap and Hold Demo',
         }),
       },
     },

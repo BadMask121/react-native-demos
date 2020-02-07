@@ -14,7 +14,8 @@ const AppContants = {
     TRANSITIONSCREEN: 'TransitionNavigator',
     SHARED_ELEMENT_TRANSITION: 'SharedElementTransition',
     GESTURE_SCREEN: 'GesturesNavigator',
-    PANGESTURE_SCREEN: 'PanGesturesScreen',
+    DRAGGABLE_SCREEN: 'DraggableScreen',
+    TAPANDHOLD_SCREEN: 'TapAndHoldScreen',
     HOME: 'Home',
   },
 };
