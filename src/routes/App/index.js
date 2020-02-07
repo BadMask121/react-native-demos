@@ -4,7 +4,7 @@ import {createAppContainer} from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import HomeDrawer from 'components/custom/Drawer/HomeDrawer';
 import {app} from 'helpers/constants';
-import {Home, Transition} from '../../components/screens';
+import {Home, Transition, Gestures} from '../../components/screens';
 import {createStackNavigator} from 'react-navigation-stack';
 
 export const TransitionNavigator = createAppContainer(
@@ -32,10 +32,34 @@ export const TransitionNavigator = createAppContainer(
   ),
 );
 
+export const GesturesNavigator = createAppContainer(
+  createStackNavigator(
+    {
+      GesturesHome: {
+        screen: props => <Gestures.default {...props} />,
+        navigationOptions: ({}) => ({
+          title: 'Gestures',
+        }),
+      },
+      PanGesturesScreen: {
+        screen: props => <Gestures.PanGesturesScreen {...props} />,
+        navigationOptions: ({}) => ({
+          title: 'Pan Gestures',
+        }),
+      },
+    },
+    {
+      initialRouteName: 'GesturesHome',
+      keyboardHandlingEnabled: true,
+    },
+  ),
+);
+
 const index = createDrawerNavigator(
   {
     Home,
     TransitionNavigator,
+    GesturesNavigator,
   },
   {
     backBehavior: 'initialRoute',

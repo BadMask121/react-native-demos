@@ -26,6 +26,15 @@ export default props => {
               <Text>Transitions</Text>
             </CardItem>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate(app.ROUTES.GESTURE_SCREEN)
+            }>
+            <CardItem header bordered>
+              <Text>Gestures</Text>
+            </CardItem>
+          </TouchableOpacity>
         </Container>
       </ScrollView>
     </SafeAreaView>

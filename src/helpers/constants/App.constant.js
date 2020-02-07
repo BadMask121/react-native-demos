@@ -13,6 +13,8 @@ const AppContants = {
   ROUTES: {
     TRANSITIONSCREEN: 'TransitionNavigator',
     SHARED_ELEMENT_TRANSITION: 'SharedElementTransition',
+    GESTURE_SCREEN: 'GesturesNavigator',
+    PANGESTURE_SCREEN: 'PanGesturesScreen',
     HOME: 'Home',
   },
 };

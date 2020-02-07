@@ -1,3 +1,4 @@
 import Home from './Home';
 import * as Transition from './Transition';
-export {Home, Transition};
+import * as Gestures from './Gestures';
+export {Home, Transition, Gestures};
