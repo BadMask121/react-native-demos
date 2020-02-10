@@ -90,7 +90,7 @@ export default class index extends Component {
 
     return (
       <SafeAreaView style={{flex: 1}}>
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{marginTop: 50}}>
           {images.map(app => (
             <SharedCard key={app.id} {...{app, open}} />
           ))}

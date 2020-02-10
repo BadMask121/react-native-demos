@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Animated from 'react-native-reanimated';
+import Animated, {debug} from 'react-native-reanimated';
 import {spring as runSpring} from 'react-native-redash';
 
 const {Value, Clock, cond, eq, stopClock, set, clockRunning, neq} = Animated;
@@ -14,9 +14,9 @@ export interface SpringValue {
 
 const springConfig = () => ({
   toValue: new Value(0),
-  damping: 15,
+  damping: 17,
   mass: 1,
-  stiffness: 200,
+  stiffness: 300,
   overshootClamping: false,
   restSpeedThreshold: 0.001,
   restDisplacementThreshold: 0.001,
@@ -42,19 +42,23 @@ export const spring = (
   v: SpringValue,
   from: number,
   to: number,
-  velocity: number,
   back: 'hasSprung' | 'hasSprungBack' = 'hasSprung',
 ): typeof Value =>
-  cond(eq(v[back], 0), [
-    set(
-      v.value,
-      runSpring({
-        clock: v.clock,
-        from,
-        to,
-        config: springConfig(),
-        velocity,
-      }),
-    ),
-    cond(eq(clockRunning(v.clock), 0), set(v[back], 1)),
-  ]);
+  cond(
+    eq(v[back], 0),
+    [
+      set(
+        v.value,
+        runSpring({
+          clock: v.clock,
+          from,
+          to,
+          velocity: new Value(0),
+          config: springConfig(),
+        }),
+      ),
+
+      cond(eq(clockRunning(v.clock), 0), set(v[back], 1)),
+    ],
+    stopClock(v.clock),
+  );

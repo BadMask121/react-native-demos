@@ -18,7 +18,13 @@ import {App, Position} from 'helpers/Modal';
 
 const {width, height} = Dimensions.get('window');
 const style = {
-  ImageContainer: {height: height - 150, width, padding: 15},
+  ImageContainer: {
+    flex: 1,
+    height: height - 100,
+    width,
+    padding: 30,
+    justifyContent: 'center',
+  },
   Image: {
     flex: 1,
     width: null,
@@ -28,17 +34,16 @@ const style = {
   },
 
   cardContainer: {
-    position: 'absolute',
-    bottom: 10,
-    width: '100%',
-    height: '20%',
-    marginLeft: 15,
-    borderColor: 'transparent',
+    flex: 0.15,
+    bottom: 60,
+    right: 4,
+    width: '101%',
     elevation: 0,
     borderRadius: 20,
-    borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    borderTopLeftRadius: 0,
+    backgroundColor: 'rgb(255,255,255)',
+    borderColor: 'transparent',
   },
   cardItem: {
     backgroundColor: 'transparent',
@@ -59,7 +64,6 @@ const measure = async (
 
 export default class extends Component<Props> {
   container = React.createRef();
-
   startTransition = async () => {
     const {app, open} = this.props;
     const position = await measure(this.container);
@@ -72,7 +76,7 @@ export default class extends Component<Props> {
     const {app} = this.props;
     return (
       <TouchableWithoutFeedback onPress={this.startTransition}>
-        <View style={{flex: 1}} onLayout={this.setContainer}>
+        <View onLayout={this.setContainer}>
           <AppThumbnail {...app} />
         </View>
       </TouchableWithoutFeedback>
@@ -87,7 +91,7 @@ export const AppThumbnail = ({source, content}: App) => {
 
       <Card style={style.cardContainer}>
         <CardItem style={style.cardItem}>
-          <Text style={{color: '#fff'}}>{content}</Text>
+          <Text style={{color: '#000'}}>{content.substring(0, 50)}</Text>
         </CardItem>
       </Card>
     </Animated.View>
