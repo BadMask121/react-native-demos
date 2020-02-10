@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {View, Text} from 'native-base';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
-import Animated, {eq, set, event, neq} from 'react-native-reanimated';
+import Animated, {eq, set, event, neq, timing} from 'react-native-reanimated';
 import {onGestureEvent, opacity} from 'react-native-redash';
-import {Dimensions, LayoutChangeEvent, Alert} from 'react-native';
+import {Dimensions, LayoutChangeEvent, Alert, Easing} from 'react-native';
 
 const {
   Value,
@@ -70,7 +70,7 @@ export default class extends Component {
     this.offsetX = new Value(width / 2.5);
     this.offsetY = new Value(height / 4);
     this.gestureState = new Value(-1);
-
+    this.clock = new Clock();
     this.backgroundcolor = new Value(0);
     this.addX = add(this.offsetX, this.dragX);
     this.addY = add(this.offsetY, this.dragY);
@@ -107,11 +107,13 @@ export default class extends Component {
     });
 
     // interpolating scale
-    this.scale = interpolate(this.transY, {
-      inputRange: [0, height],
-      outputRange: [1, 2],
-      extrapolate: Extrapolate.CLAMP,
-    });
+    this.scale = block([
+      interpolate(this.transY, {
+        inputRange: [0, height],
+        outputRange: [1, 2],
+        extrapolate: Extrapolate.CLAMP,
+      }),
+    ]);
 
     this.elevation = interpolate(this.dropped, {
       inputRange: [0, 1],
@@ -143,8 +145,6 @@ export default class extends Component {
 
   saveDropZone = (e: LayoutChangeEvent) => {
     const {width, height, x, y} = e.nativeEvent.layout;
-
-    console.log(width);
     this.top = y;
     this.bottom = y + height;
     this.left = x;

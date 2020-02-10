@@ -1,32 +1,48 @@
-import React, {Component} from 'react';
-import {View} from 'react-native-animatable';
+import React, {Component, createRef} from 'react';
 import {Text, Card, CardItem} from 'native-base';
-// import {} from 'react-native-reanimated'
 import {
+  View,
   ScrollView,
   Image,
-  Animated,
   Dimensions,
   TouchableHighlight,
   SafeAreaView,
+  StyleSheet,
+  NativeMethodsMixinStatic,
+  LayoutChangeEvent,
+  NativeMethodsMixin,
 } from 'react-native';
 import {TapGestureHandler} from 'react-native-gesture-handler';
+import {onGestureEvent} from 'react-native-redash';
+import Animated, {Easing, set} from 'react-native-reanimated';
+import SharedCard from 'components/custom/Card/SharedCard';
+import {App, Position} from 'helpers/Modal';
+import SharedModal from 'components/custom/Modal/SharedModal';
+
 const images = [
   {
     id: 1,
-    src: require('@assets/images/splashScreen/better1632x2449.jpg'),
+    source: require('@assets/images/splashScreen/better1632x2449.jpg'),
+    content:
+      'Occaecat do proident in cillum ullamco ipsum tempor.VoluptateOccaecat do proident in cillum ullamco ipsum tempor.Voluptate',
   },
   {
     id: 2,
-    src: require('@assets/images/splashScreen/justin-essah-RxnmKqPvW5I-unsplash.jpg'),
+    source: require('@assets/images/splashScreen/justin-essah-RxnmKqPvW5I-unsplash.jpg'),
+    content:
+      'Reprehenderit aute do enim non.Culpa commodo aliqua irure ut tempor anim anim tempor irure cupidatat.',
   },
   {
     id: 3,
-    src: require('@assets/images/splashScreen/kevin-laminto-nPJlwpECLcc-unsplash.jpg'),
+    source: require('@assets/images/splashScreen/kevin-laminto-nPJlwpECLcc-unsplash.jpg'),
+    content:
+      'Deserunt aliqua anim commodo enim.Tempor mollit consequat tempor Lorem irure in commodo veniam elit exercitation aliquip Lorem esse.',
   },
   {
     id: 4,
-    src: require('@assets/images/splashScreen/tumblr_msfeffbMUG1qztgoio1_500.webp'),
+    source: require('@assets/images/splashScreen/tumblr_msfeffbMUG1qztgoio1_500.webp'),
+    content:
+      'Occaecat ad eiusmod elit ullamco nulla ullamco dolore consequat aliquip excepteur.',
   },
 ];
 const {width, height} = Dimensions.get('window');
@@ -36,54 +52,50 @@ const style = {
     flex: 1,
     width: null,
     height: null,
+    left: 0,
+    top: 0,
     resizeMode: 'cover',
     borderRadius: 20,
   },
 };
+const {
+  Value,
+  cond,
+  and,
+  Clock,
+  block,
+  startClock,
+  stopClock,
+  timing,
+} = Animated;
+
 export default class index extends Component {
+  constructor(props: Readonly<{}>) {
+    super(props);
+  }
+
+  state = {
+    ready: false,
+    modal: null,
+  };
+
+  open = (app: App, position: Position) =>
+    this.setState({modal: {app, position}});
+
+  close = () => this.setState({modal: null});
+
   render() {
+    const {open, close} = this;
+    const {modal, ready} = this.state;
+
     return (
       <SafeAreaView style={{flex: 1}}>
         <ScrollView style={{flex: 1}}>
-          {images.map(image => (
-            <TapGestureHandler
-              key={image.id}
-              onGestureEvent={() => console.log('HEllo')}>
-              <Animated.View style={style.ImageContainer}>
-                <Image source={image.src} style={style.Image} />
-
-                <Card
-                  style={{
-                    position: 'absolute',
-                    bottom: 10,
-                    width: '100%',
-                    height: '20%',
-                    marginLeft: 15,
-                    borderColor: 'transparent',
-                    elevation: 0,
-                    borderRadius: 20,
-                    borderTopLeftRadius: 0,
-                    borderTopRightRadius: 0,
-                    backgroundColor: 'rgba(0,0,0,0.1)',
-                  }}>
-                  <CardItem
-                    style={{
-                      backgroundColor: 'transparent',
-                      borderRadius: 20,
-                      borderTopLeftRadius: 0,
-                      borderTopRightRadius: 0,
-                    }}>
-                    <Text style={{color: '#fff'}}>
-                      Occaecat do proident in cillum ullamco ipsum tempor.
-                      Voluptate eiusmod culpa culpa laborum mollit ipsum officia
-                      labore non labore cillum dolor.
-                    </Text>
-                  </CardItem>
-                </Card>
-              </Animated.View>
-            </TapGestureHandler>
+          {images.map(app => (
+            <SharedCard key={app.id} {...{app, open}} />
           ))}
         </ScrollView>
+        {modal && <SharedModal {...modal} {...{close}} />}
       </SafeAreaView>
     );
   }

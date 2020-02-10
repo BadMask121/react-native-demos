@@ -22,6 +22,7 @@ export const TransitionNavigator = createAppContainer(
         ),
         navigationOptions: ({}) => ({
           title: 'Shared Element Transition',
+          header: null,
         }),
       },
     },
