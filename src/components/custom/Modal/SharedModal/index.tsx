@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'native-base';
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, StatusBar} from 'react-native';
 import Animated, {
   Value,
   cond,
@@ -10,16 +10,15 @@ import Animated, {
   interpolate,
   useCode,
   eq,
-  timing,
   set,
   Clock,
   Easing,
   startClock,
   debug,
 } from 'react-native-reanimated';
+import {timing} from 'react-native-redash';
 import {Position, App} from 'helpers/Modal';
 import {createValue, spring} from 'helpers/Spring';
-import {ScrollView, State} from 'react-native-gesture-handler';
 import SharedContent from 'components/custom/Panel/SubPanel/SharedContent';
 
 const style = {
@@ -46,28 +45,51 @@ export default ({app, position}: AppModalProps) => {
   const height = createValue(position.height);
   const x = createValue(position.x);
   const y = createValue(position.y);
+  const transY = createValue(0);
   const borderRadius = createValue(20);
   const opacity = cond(
     greaterThan(width.value, sub(wWidth, position.width / 2)),
     1,
     0,
   );
+
   const imageView = {
     position: 'absolute',
     width: width.value,
     height: height.value,
-    // left: x.value,
-    // top: y.value,
+    left: x.value,
+    top: y.value,
   };
+
+  console.log(position.y, position.height);
   return (
     <>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" />
       <Animated.Code>
         {() =>
           block([
             spring(width, position.width, wWidth),
             spring(height, position.height, wHeight),
             spring(x, position.x, 0),
-            spring(y, position.y, 0),
+
+            spring(y, position.y, 0, {
+              damping: 18,
+              mass: 1,
+              overshootClamping: true,
+              restDisplacementThreshold: 0.001,
+              restSpeedThreshold: 0.001,
+              stiffness: 100,
+              toValue: new Value(0),
+            }),
+            // spring(transY, position.y, 0, {
+            //   damping: 18,
+            //   mass: 1,
+            //   overshootClamping: true,
+            //   restDisplacementThreshold: 0.001,
+            //   restSpeedThreshold: 0.001,
+            //   stiffness: 100,
+            //   toValue: new Value(0),
+            // }),
             spring(borderRadius, 20, 10),
             // spring(opacity, 0, 1),
           ])
@@ -77,6 +99,12 @@ export default ({app, position}: AppModalProps) => {
         style={{
           backgroundColor: 'transparent',
           ...imageView,
+
+          transform: [
+            {
+              translateY: transY.value,
+            },
+          ],
         }}>
         <Animated.View
           style={[
@@ -94,7 +122,13 @@ export default ({app, position}: AppModalProps) => {
             borderRadius: borderRadius.value,
           }}>
           <Animated.Image
-            style={[style.Image, {borderRadius: borderRadius.value || 20}]}
+            style={[
+              style.Image,
+              {
+                borderBottomLeftRadius: borderRadius.value || 20,
+                borderBottomRightRadius: borderRadius.value || 20,
+              },
+            ]}
             source={app ? app.source : null}
           />
         </Animated.View>
